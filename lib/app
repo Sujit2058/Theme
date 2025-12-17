@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:theme/app_theme.dart';
+import 'package:theme/home_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+enum AppThemeType { light, dark, custom }
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  AppThemeType _currentTheme = AppThemeType.dark;
+  ThemeData get theme {
+    switch (_currentTheme) {
+      case AppThemeType.light:
+        return AppTheme.lightTheme;
+      case AppThemeType.custom:
+        return AppTheme.custom;
+      default:
+        return AppTheme.darkTheme;
+    }
+  }
+
+  void changeTheme(AppThemeType theme) {
+    setState(() {
+      _currentTheme = theme;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: theme,
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(onThemeChange: changeTheme),
+    );
+  }
+}
